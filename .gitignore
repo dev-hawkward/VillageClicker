@@ -2,16 +2,16 @@
 #
 # Get latest from https://github.com/github/gitignore/blob/master/Unity.gitignore
 #
-/[Ll]ibrary/
-/[Tt]emp/
-/[Oo]bj/
-/[Bb]uild/
-/[Bb]uilds/
-/[Ll]ogs/
-/[Mm]emoryCaptures/
+Game_VillageClicker/[Ll]ibrary/
+Game_VillageClicker/[Tt]emp/
+Game_VillageClicker/[Oo]bj/
+Game_VillageClicker/[Bb]uild/
+Game_VillageClicker/[Bb]uilds/
+Game_VillageClicker/[Ll]ogs/
+Game_VillageClicker/[Mm]emoryCaptures/
 
 # Asset meta data should only be ignored when the corresponding asset is also ignored
-!/[Aa]ssets/**/*.meta
+Game_VillageClicker/!/[Aa]ssets/**/*.meta
 
 # Uncomment this line if you wish to ignore the asset store tools plugin
 # /[Aa]ssets/AssetStoreTools*
