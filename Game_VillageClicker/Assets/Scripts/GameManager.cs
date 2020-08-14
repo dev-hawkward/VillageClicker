@@ -50,6 +50,7 @@ namespace HW
             }
         }
 
+        //TODO: You need to modify the timing of reshres screen
         private void RefreshResourceCount()
         {
             woodCount.text = $"{GetResource(ResourceType.Wood)}";
