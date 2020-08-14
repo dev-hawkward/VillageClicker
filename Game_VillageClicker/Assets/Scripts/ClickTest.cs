@@ -2,24 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ClickTest : MonoBehaviour
+namespace HW
 {
-    [SerializeField] private AudioSource clickSound;
-    // Start is called before the first frame update
-    void Start()
+    public class ClickTest : HWBehaviour
     {
-        
-    }
+        [SerializeField] private AudioSource clickSound;
+        // Start is called before the first frame update
+        void Start()
+        {
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+        }
 
-    void OnMouseDown()
-    {
-        Debug.Log("Clicked!");
-        clickSound.Play();
+        // Update is called once per frame
+        void Update()
+        {
+
+        }
+
+        void OnMouseDown()
+        {
+            Debug.Log("Clicked!");
+            clickSound.Play();
+        }
     }
 }
