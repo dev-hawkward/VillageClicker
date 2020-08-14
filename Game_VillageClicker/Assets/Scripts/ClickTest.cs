@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ClickTest : MonoBehaviour
 {
+    [SerializeField] private AudioSource clickSound;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,5 +20,6 @@ public class ClickTest : MonoBehaviour
     void OnMouseDown()
     {
         Debug.Log("Clicked!");
+        clickSound.Play();
     }
 }
