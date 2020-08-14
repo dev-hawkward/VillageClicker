@@ -8,6 +8,9 @@ namespace HW
         [SerializeField] TextMeshProUGUI woodCount;
         [SerializeField] TextMeshProUGUI stoneCount;
         [SerializeField] TextMeshProUGUI metalCount;
+        [SerializeField] TextMeshProUGUI woodVillagerCount;
+        [SerializeField] TextMeshProUGUI stoneVillagerCount;
+        [SerializeField] TextMeshProUGUI metalVillagerCount;
         private const float TickInterval = 1.0f;
         private float interval;
         private int[] resources = new int[(int)ResourceType.Max];
@@ -15,6 +18,9 @@ namespace HW
         public int GetResource(ResourceType resourceType) => resources[(int)resourceType];
         public void AddResource(ResourceType resourceType, int count) => resources[(int)resourceType] += count;
         public void UseResource(ResourceType resourceType, int count) => resources[(int)resourceType] -= count;
+        public int GetVillager(ResourceType resourceType) => villagers[(int)resourceType];
+        public int AddVillager(ResourceType resourceType, int count) => villagers[(int)resourceType] += count;
+        public int UseVillager(ResourceType resourceType, int count) => villagers[(int)resourceType] -= count;
         protected override void UnityAwake()
         {
 
@@ -26,6 +32,8 @@ namespace HW
             {
                 //Automatically gather resources by villager
                 GatherResourcesByVillager();
+                RefreshResourceCount();
+                RefreshVillagerCount();
                 interval += TickInterval;
             }
         }
@@ -42,10 +50,20 @@ namespace HW
             }
         }
 
-        private void LateUpdate()
+        private void RefreshResourceCount()
         {
-
+            woodCount.text = $"{GetResource(ResourceType.Wood)}";
+            stoneCount.text = $"{GetResource(ResourceType.Stone)}";
+            metalCount.text = $"{GetResource(ResourceType.Metal)}";
         }
+
+        private void RefreshVillagerCount()
+        {
+            woodVillagerCount.text = $"{GetVillager(ResourceType.Wood)}";
+            stoneVillagerCount.text = $"{GetVillager(ResourceType.Stone)}";
+            metalVillagerCount.text = $"{GetVillager(ResourceType.Metal)}";
+        }
+
     }
 
     public enum ResourceType

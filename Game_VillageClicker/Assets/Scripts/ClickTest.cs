@@ -22,7 +22,11 @@ namespace HW
         void OnMouseDown()
         {
             Debug.Log("Clicked!");
-            clickSound.Play();
+            // clickSound.Play();
+
+            GameManager.Inst.AddVillager(ResourceType.Wood, 1);
+            GameManager.Inst.AddVillager(ResourceType.Stone, 2);
+            GameManager.Inst.AddVillager(ResourceType.Metal, 3);
         }
     }
 }
