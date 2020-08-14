@@ -1,7 +1,7 @@
 namespace HW
 {
-    public abstract class SingletonMonoBehaviour<T> : HWBehaviour
-    where T : SingletonMonoBehaviour<T>
+    public abstract class SingletonBehaviour<T> : HWBehaviour
+    where T : SingletonBehaviour<T>
     {
         public static T Inst { get; private set; }
         private void Awake()

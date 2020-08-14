@@ -1,7 +1,7 @@
 namespace HW
 {
-    public class GameManager : SingletonMonoBehaviour<GameManager>
+    public class GameManager : SingletonBehaviour<GameManager>
     {
-        
+
     }
 }
