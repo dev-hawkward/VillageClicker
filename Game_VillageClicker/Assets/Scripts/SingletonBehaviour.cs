@@ -10,6 +10,8 @@ namespace HW
             {
                 Inst = this as T;
             }
+            UnityAwake();
         }
+        protected abstract void UnityAwake();
     }
 }
