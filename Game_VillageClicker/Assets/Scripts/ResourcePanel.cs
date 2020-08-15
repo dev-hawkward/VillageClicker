@@ -26,10 +26,14 @@ namespace HW
         }
         public void OnClickButton()
         {
-            GameManager.Inst.AddResource(resourceType, 1);
-            if (particle != null)
+            var success = GameManager.Inst.TryUseResource(requiredType, requiredCost);
+            if (success)
             {
-                particle.Play();
+                GameManager.Inst.AddResource(resourceType, 1);
+                if (particle != null)
+                {
+                    particle.Play();
+                }
             }
         }
         private void Update()

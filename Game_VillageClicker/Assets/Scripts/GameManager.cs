@@ -26,6 +26,39 @@ namespace HW
             currResources[(int)resourceType] += count;
             OnAdd(resourceType);
         }
+        public bool TryUseResource(ResourceType[] resourceTypes, int[] counts)
+        {
+            for (var i = 0; i < resourceTypes.Length; i++)
+            {
+                var resourceType = resourceTypes[i];
+                var resourceCount = counts[i];
+                if (resourceType == ResourceType.NA || resourceType == ResourceType.Click || resourceType == ResourceType.Max || resourceCount == 0)
+                {
+                    continue;
+                }
+                else
+                {
+                    var curr = GetResource(resourceType);
+                    var req = resourceCount;
+                    if (curr < req) return false;
+                }
+            }
+
+            for (var i = 0; i < resourceTypes.Length; i++)
+            {
+                var resourceType = resourceTypes[i];
+                var resourceCount = counts[i];
+                if (resourceType == ResourceType.NA || resourceType == ResourceType.Click || resourceType == ResourceType.Max || resourceCount == 0)
+                {
+                    continue;
+                }
+                else
+                {
+                    UseResource(resourceType, resourceCount);
+                }
+            }
+            return true;
+        }
         public void UseResource(ResourceType resourceType, int count)
         {
             prevResources[(int)resourceType] = currResources[(int)resourceType];
