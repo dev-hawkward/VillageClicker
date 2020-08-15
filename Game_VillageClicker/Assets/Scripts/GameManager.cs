@@ -13,14 +13,38 @@ namespace HW
         [SerializeField] TextMeshProUGUI metalVillagerCount;
         private const float TickInterval = 1.0f;
         private float interval;
-        private int[] resources = new int[(int)ResourceType.Max];
-        private int[] villagers = new int[(int)ResourceType.Max];
-        public int GetResource(ResourceType resourceType) => resources[(int)resourceType];
-        public void AddResource(ResourceType resourceType, int count) => resources[(int)resourceType] += count;
-        public void UseResource(ResourceType resourceType, int count) => resources[(int)resourceType] -= count;
-        public int GetVillager(ResourceType resourceType) => villagers[(int)resourceType];
-        public int AddVillager(ResourceType resourceType, int count) => villagers[(int)resourceType] += count;
-        public int UseVillager(ResourceType resourceType, int count) => villagers[(int)resourceType] -= count;
+        private int[] currResources = new int[(int)ResourceType.Max];
+        private int[] prevResources = new int[(int)ResourceType.Max];
+        private int[] currVillagers = new int[(int)ResourceType.Max];
+        private int[] prevVillagers = new int[(int)ResourceType.Max];
+        public int GetResource(ResourceType resourceType, bool isCurrent = true) => (isCurrent) ? currResources[(int)resourceType] : prevResources[(int)resourceType];
+        public void AddResource(ResourceType resourceType, int count)
+        {
+            prevResources[(int)resourceType] = currResources[(int)resourceType];
+            currResources[(int)resourceType] += count;
+            OnAdd();
+        }
+        public void UseResource(ResourceType resourceType, int count)
+        {
+            prevResources[(int)resourceType] = currResources[(int)resourceType];
+            currResources[(int)resourceType] -= count;
+            OnUse();
+        }
+        public int GetVillager(ResourceType resourceType, bool isCurrent = true) => (isCurrent) ? currVillagers[(int)resourceType] : prevVillagers[(int)resourceType];
+        public void AddVillager(ResourceType resourceType, int count)
+        {
+            prevVillagers[(int)resourceType] = currVillagers[(int)resourceType];
+            currVillagers[(int)resourceType] += count;
+            OnAdd();
+        }
+        public void UseVillager(ResourceType resourceType, int count)
+        {
+            prevVillagers[(int)resourceType] = currVillagers[(int)resourceType];
+            currVillagers[(int)resourceType] -= count;
+            OnUse();
+        }
+        private void OnAdd() => RefreshScreen();
+        private void OnUse() => RefreshScreen();
         protected override void UnityAwake()
         {
 
@@ -32,17 +56,16 @@ namespace HW
             {
                 //Automatically gather resources by villager
                 GatherResourcesByVillager();
-                RefreshResourceCount();
-                RefreshVillagerCount();
                 interval += TickInterval;
             }
+            RefreshScreen();
         }
 
         private void GatherResourcesByVillager()
         {
             for (var i = 1; i < (int)ResourceType.Max; i++)
             {
-                var villagerCount = villagers[i];
+                var villagerCount = currVillagers[i];
                 if (villagerCount > 0)
                 {
                     AddResource((ResourceType)i, villagerCount);
@@ -50,19 +73,39 @@ namespace HW
             }
         }
 
+        private void RefreshScreen()
+        {
+            RefreshResourceCount();
+            RefreshVillagerCount();
+        }
+
         //TODO: You need to modify the timing of reshres screen
         private void RefreshResourceCount()
         {
-            woodCount.text = $"{GetResource(ResourceType.Wood)}";
-            stoneCount.text = $"{GetResource(ResourceType.Stone)}";
-            metalCount.text = $"{GetResource(ResourceType.Metal)}";
+            TryRefreshResourceCountText(woodCount, ResourceType.Wood);
+            TryRefreshResourceCountText(stoneCount, ResourceType.Stone);
+            TryRefreshResourceCountText(metalCount, ResourceType.Metal);
+        }
+
+        private void TryRefreshResourceCountText(TextMeshProUGUI countText, ResourceType resourceType)
+        {
+            var curr = GetResource(resourceType, isCurrent: true);
+            var prev = GetResource(resourceType, isCurrent: false);
+            if (curr != prev) countText.text = $"{curr}";
         }
 
         private void RefreshVillagerCount()
         {
-            woodVillagerCount.text = $"{GetVillager(ResourceType.Wood)}";
-            stoneVillagerCount.text = $"{GetVillager(ResourceType.Stone)}";
-            metalVillagerCount.text = $"{GetVillager(ResourceType.Metal)}";
+            TryRefreshVillagerCountText(woodVillagerCount, ResourceType.Wood);
+            TryRefreshVillagerCountText(stoneVillagerCount, ResourceType.Stone);
+            TryRefreshVillagerCountText(metalVillagerCount, ResourceType.Metal);
+        }
+
+        private void TryRefreshVillagerCountText(TextMeshProUGUI countText, ResourceType resourceType)
+        {
+            var curr = GetVillager(resourceType, isCurrent: true);
+            var prev = GetVillager(resourceType, isCurrent: false);
+            if (curr != prev) countText.text = $"{curr}";
         }
 
     }
