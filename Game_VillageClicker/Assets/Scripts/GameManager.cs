@@ -22,6 +22,7 @@ namespace HW
         private int[] prevResources = new int[(int)ResourceType.Max];
         private int[] currVillagers = new int[(int)ResourceType.Max];
         private int[] prevVillagers = new int[(int)ResourceType.Max];
+        private int idleVillagers = 10;
         public int GetResource(ResourceType resourceType, bool isCurrent = true) => (isCurrent) ? currResources[(int)resourceType] : prevResources[(int)resourceType];
         public void AddResource(ResourceType resourceType, int count)
         {
@@ -34,6 +35,10 @@ namespace HW
             prevResources[(int)resourceType] = currResources[(int)resourceType];
             currResources[(int)resourceType] -= count;
             OnUse();
+        }
+        public int GetResourcePerSec(ResourceType resourceType)
+        {
+            return GetVillager(resourceType, isCurrent: true) * 1;
         }
         public int GetVillager(ResourceType resourceType, bool isCurrent = true) => (isCurrent) ? currVillagers[(int)resourceType] : prevVillagers[(int)resourceType];
         public void AddVillager(ResourceType resourceType, int count)
@@ -48,6 +53,24 @@ namespace HW
             currVillagers[(int)resourceType] -= count;
             OnUse();
         }
+
+        public void TryAssignVillager(ResourceType resourceType, int count = 1)
+        {
+            if (idleVillagers >= count)
+            {
+                idleVillagers -= count;
+                AddVillager(resourceType, count);
+            }
+        }
+        public void TryRemoveVillager(ResourceType resourceType, int count = 1)
+        {
+            if (GetVillager(resourceType) >= 1)
+            {
+                UseVillager(resourceType, count);
+                idleVillagers += count;
+            }
+        }
+
         private void OnAdd(ResourceType resourceType)
         {
             RefreshScreen();
