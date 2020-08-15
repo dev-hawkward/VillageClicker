@@ -113,9 +113,11 @@ namespace HW
     public enum ResourceType
     {
         NA,
+        Click,
         Wood,
         Stone,
         Metal,
+        Villager,
         Max
     }
 }

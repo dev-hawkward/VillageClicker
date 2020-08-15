@@ -9,6 +9,8 @@ namespace HW
         [SerializeField] TextMeshProUGUI currCountText = default;
         [SerializeField] TextMeshProUGUI perSecCountText = default;
         [SerializeField] ParticleSystem particle = default;
+        [SerializeField] ResourceType[] requiredType = default;
+        [SerializeField] int[] requiredCost = default;
         private int currCount = 0;
         private int prevCount = 0;
         private int currPerSecCount = 0;
