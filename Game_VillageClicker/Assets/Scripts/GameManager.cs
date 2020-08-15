@@ -17,7 +17,6 @@ namespace HW
         private int[] prevResources = new int[(int)ResourceType.Max];
         private int[] currVillagers = new int[(int)ResourceType.Max];
         private int[] prevVillagers = new int[(int)ResourceType.Max];
-        private int idleVillagers = 10;
         public Sprite GetResourceIcon(ResourceType resourceType) => resourceIcons[(int)resourceType];
         public int GetResource(ResourceType resourceType, bool isCurrent = true) => (isCurrent) ? currResources[(int)resourceType] : prevResources[(int)resourceType];
         public void AddResource(ResourceType resourceType, int count)
@@ -85,9 +84,9 @@ namespace HW
 
         public void TryAssignVillager(ResourceType resourceType, int count = 1)
         {
-            if (idleVillagers >= count)
+            if (GetResource(ResourceType.Villager) >= count)
             {
-                idleVillagers -= count;
+                UseResource(ResourceType.Villager, count);
                 AddVillager(resourceType, count);
             }
         }
@@ -96,7 +95,7 @@ namespace HW
             if (GetVillager(resourceType) >= 1)
             {
                 UseVillager(resourceType, count);
-                idleVillagers += count;
+                AddResource(ResourceType.Villager, count);
             }
         }
 
