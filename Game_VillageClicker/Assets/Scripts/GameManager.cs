@@ -27,7 +27,7 @@ namespace HW
         {
             prevResources[(int)resourceType] = currResources[(int)resourceType];
             currResources[(int)resourceType] += count;
-            OnAdd();
+            OnAdd(resourceType);
         }
         public void UseResource(ResourceType resourceType, int count)
         {
@@ -40,7 +40,7 @@ namespace HW
         {
             prevVillagers[(int)resourceType] = currVillagers[(int)resourceType];
             currVillagers[(int)resourceType] += count;
-            OnAdd();
+            OnAdd(resourceType);
         }
         public void UseVillager(ResourceType resourceType, int count)
         {
@@ -48,9 +48,21 @@ namespace HW
             currVillagers[(int)resourceType] -= count;
             OnUse();
         }
-        private void OnAdd()
+        private void OnAdd(ResourceType resourceType)
         {
             RefreshScreen();
+            switch (resourceType)
+            {
+                case ResourceType.Wood:
+                    audioSource.clip = se_woodGather;
+                    break;
+                case ResourceType.Stone:
+                    audioSource.clip = se_stoneGather;
+                    break;
+                case ResourceType.Metal:
+                    audioSource.clip = se_metalGather;
+                    break;
+            }
             audioSource.Play();
         }
         private void OnUse() => RefreshScreen();
