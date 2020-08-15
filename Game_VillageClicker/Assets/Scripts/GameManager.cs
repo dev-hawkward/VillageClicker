@@ -11,6 +11,11 @@ namespace HW
         [SerializeField] TextMeshProUGUI woodVillagerCount;
         [SerializeField] TextMeshProUGUI stoneVillagerCount;
         [SerializeField] TextMeshProUGUI metalVillagerCount;
+        [SerializeField] AudioClip se_woodGather;
+        [SerializeField] AudioClip se_stoneGather;
+        [SerializeField] AudioClip se_metalGather;
+        [SerializeField] AudioClip se_Click;
+        [SerializeField] AudioSource audioSource;
         private const float TickInterval = 1.0f;
         private float interval;
         private int[] currResources = new int[(int)ResourceType.Max];
@@ -43,7 +48,11 @@ namespace HW
             currVillagers[(int)resourceType] -= count;
             OnUse();
         }
-        private void OnAdd() => RefreshScreen();
+        private void OnAdd()
+        {
+            RefreshScreen();
+            audioSource.Play();
+        }
         private void OnUse() => RefreshScreen();
         protected override void UnityAwake()
         {
