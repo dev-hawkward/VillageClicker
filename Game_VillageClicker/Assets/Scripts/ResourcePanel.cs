@@ -15,6 +15,15 @@ namespace HW
         private int prevCount = 0;
         private int currPerSecCount = 0;
         private int prevPerSecCount = 0;
+        private ResourceCost[] costs;
+        private void Start()
+        {
+            costs = GetComponentsInChildren<ResourceCost>(true);
+            for (var i = 0; i < requiredType.Length; i++)
+            {
+                costs[i].Init(requiredType[i], requiredCost[i]);
+            }
+        }
         public void OnClickButton()
         {
             GameManager.Inst.AddResource(resourceType, 1);

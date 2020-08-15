@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using UnityEngine;
 using TMPro;
 
@@ -5,11 +6,11 @@ namespace HW
 {
     public class GameManager : SingletonBehaviour<GameManager>
     {
-        [SerializeField] AudioClip se_woodGather;
-        [SerializeField] AudioClip se_stoneGather;
-        [SerializeField] AudioClip se_metalGather;
-        [SerializeField] AudioClip se_Click;
-        [SerializeField] AudioSource audioSource;
+        [SerializeField] AudioClip se_woodGather = default;
+        [SerializeField] AudioClip se_stoneGather = default;
+        [SerializeField] AudioClip se_metalGather = default;
+        [SerializeField] AudioSource audioSource = default;
+        [SerializeField] Sprite[] resourceIcons = new Sprite[(int)ResourceType.Max];
         private const float TickInterval = 1.0f;
         private float interval;
         private int[] currResources = new int[(int)ResourceType.Max];
@@ -17,6 +18,7 @@ namespace HW
         private int[] currVillagers = new int[(int)ResourceType.Max];
         private int[] prevVillagers = new int[(int)ResourceType.Max];
         private int idleVillagers = 10;
+        public Sprite GetResourceIcon(ResourceType resourceType) => resourceIcons[(int)resourceType];
         public int GetResource(ResourceType resourceType, bool isCurrent = true) => (isCurrent) ? currResources[(int)resourceType] : prevResources[(int)resourceType];
         public void AddResource(ResourceType resourceType, int count)
         {
