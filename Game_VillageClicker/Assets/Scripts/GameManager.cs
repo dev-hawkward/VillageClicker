@@ -5,12 +5,6 @@ namespace HW
 {
     public class GameManager : SingletonBehaviour<GameManager>
     {
-        [SerializeField] TextMeshProUGUI woodCount;
-        [SerializeField] TextMeshProUGUI stoneCount;
-        [SerializeField] TextMeshProUGUI metalCount;
-        [SerializeField] TextMeshProUGUI woodVillagerCount;
-        [SerializeField] TextMeshProUGUI stoneVillagerCount;
-        [SerializeField] TextMeshProUGUI metalVillagerCount;
         [SerializeField] AudioClip se_woodGather;
         [SerializeField] AudioClip se_stoneGather;
         [SerializeField] AudioClip se_metalGather;
@@ -73,7 +67,6 @@ namespace HW
 
         private void OnAdd(ResourceType resourceType)
         {
-            RefreshScreen();
             switch (resourceType)
             {
                 case ResourceType.Wood:
@@ -88,7 +81,7 @@ namespace HW
             }
             audioSource.Play();
         }
-        private void OnUse() => RefreshScreen();
+        private void OnUse() { }
         protected override void UnityAwake()
         {
 
@@ -102,7 +95,6 @@ namespace HW
                 GatherResourcesByVillager();
                 interval += TickInterval;
             }
-            RefreshScreen();
         }
 
         private void GatherResourcesByVillager()
@@ -116,42 +108,6 @@ namespace HW
                 }
             }
         }
-
-        private void RefreshScreen()
-        {
-            RefreshResourceCount();
-            RefreshVillagerCount();
-        }
-
-        //TODO: You need to modify the timing of reshres screen
-        private void RefreshResourceCount()
-        {
-            TryRefreshResourceCountText(woodCount, ResourceType.Wood);
-            TryRefreshResourceCountText(stoneCount, ResourceType.Stone);
-            TryRefreshResourceCountText(metalCount, ResourceType.Metal);
-        }
-
-        private void TryRefreshResourceCountText(TextMeshProUGUI countText, ResourceType resourceType)
-        {
-            var curr = GetResource(resourceType, isCurrent: true);
-            var prev = GetResource(resourceType, isCurrent: false);
-            if (curr != prev) countText.text = $"{curr}";
-        }
-
-        private void RefreshVillagerCount()
-        {
-            TryRefreshVillagerCountText(woodVillagerCount, ResourceType.Wood);
-            TryRefreshVillagerCountText(stoneVillagerCount, ResourceType.Stone);
-            TryRefreshVillagerCountText(metalVillagerCount, ResourceType.Metal);
-        }
-
-        private void TryRefreshVillagerCountText(TextMeshProUGUI countText, ResourceType resourceType)
-        {
-            var curr = GetVillager(resourceType, isCurrent: true);
-            var prev = GetVillager(resourceType, isCurrent: false);
-            if (curr != prev) countText.text = $"{curr}";
-        }
-
     }
 
     public enum ResourceType
