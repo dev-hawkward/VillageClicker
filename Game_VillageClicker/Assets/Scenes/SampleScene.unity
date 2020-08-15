@@ -1725,7 +1725,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 616028544}
+      - m_Target: {fileID: 1615389822}
         m_MethodName: OnClickVillagerAssignButton
         m_Mode: 1
         m_Arguments:
@@ -1917,7 +1917,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 616028544}
+      - m_Target: {fileID: 1615389822}
         m_MethodName: OnClickVillagerRemoveButton
         m_Mode: 1
         m_Arguments:
@@ -12735,6 +12735,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1615389821}
+  - component: {fileID: 1615389822}
   m_Layer: 5
   m_Name: VillagerPanel
   m_TagString: Untagged
@@ -12765,6 +12766,20 @@ RectTransform:
   m_AnchoredPosition: {x: 161.58, y: 50.1}
   m_SizeDelta: {x: 156.84659, y: 52.16326}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1615389822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1615389820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4325f1eecd59c4c9ba16cc03fed24b64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resourceType: 1
+  currCountText: {fileID: 1430928904}
 --- !u!1 &1753815939
 GameObject:
   m_ObjectHideFlags: 0

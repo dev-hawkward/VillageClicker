@@ -21,14 +21,6 @@ namespace HW
                 particle.Play();
             }
         }
-        public void OnClickVillagerAssignButton()
-        {
-            GameManager.Inst.TryAssignVillager(resourceType);
-        }
-        public void OnClickVillagerRemoveButton()
-        {
-            GameManager.Inst.TryRemoveVillager(resourceType);
-        }
         private void Update()
         {
             currCount = GameManager.Inst.GetResource(resourceType);
