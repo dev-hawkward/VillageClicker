@@ -34,6 +34,7 @@ namespace HW
                 {
                     particle.Play();
                 }
+                GameManager.Inst.OnClick(resourceType);
             }
         }
         private void Update()
@@ -52,7 +53,7 @@ namespace HW
                 prevPerSecCount = currPerSecCount;
             }
 
-            GameManager.Inst.TryGatherResource(resourceType);
+            GameManager.Inst.TryGatherResource(resourceType, requiredType, requiredCost);
         }
     }
 }

@@ -116,19 +116,34 @@ namespace HW
             }
         }
 
-        public void TryGatherResource(ResourceType resourceType)
+        public void TryGatherResource(ResourceType resourceType, ResourceType[] resourceTypes, int[] counts)
         {
             if (GetInterval(resourceType) < 0f)
             {
-                var count = GetResourcePerSec(resourceType);
-                AddResource(resourceType, count);
-                SetInterval(resourceType);
+                var count = GetVillager(resourceType, isCurrent: true);
+                if (count > 0)
+                {
+                    for (var i = 0; i < count; i++)
+                    {
+                        var success = TryUseResource(resourceTypes, counts);
+                        if (success)
+                            AddResource(resourceType, 1);
+                        else
+                            break;
+                    }
+                    SetInterval(resourceType);
+                }
             }
         }
         private float GetInterval(ResourceType resourceType) => currIntervals[(int)resourceType];
         private void SetInterval(ResourceType resourceType) => currIntervals[(int)resourceType] = TickInterval;
 
         private void OnAdd(ResourceType resourceType)
+        {
+
+        }
+        private void OnUse() { }
+        public void OnClick(ResourceType resourceType)
         {
             switch (resourceType)
             {
@@ -144,10 +159,8 @@ namespace HW
             }
             audioSource.Play();
         }
-        private void OnUse() { }
         protected override void UnityAwake()
         {
-
         }
         private void Update()
         {
@@ -166,6 +179,7 @@ namespace HW
         Stone,
         Metal,
         Villager,
+        Raft,
         Max
     }
 }
