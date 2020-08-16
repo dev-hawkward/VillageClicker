@@ -12,6 +12,9 @@ namespace HW
         [SerializeField] AudioSource audioSource = default;
         [SerializeField] Sprite[] resourceIcons = new Sprite[(int)ResourceType.Max];
         private const float TickInterval = 1.0f;
+        private bool isStarted = false;
+        public float currTime { get; private set; }
+        private float deltaTime = 0f;
         private int[] currResources = new int[(int)ResourceType.Max];
         private int[] prevResources = new int[(int)ResourceType.Max];
         private int[] currVillagers = new int[(int)ResourceType.Max];
@@ -145,6 +148,12 @@ namespace HW
         private void OnUse() { }
         public void OnClick(ResourceType resourceType)
         {
+            if (!isStarted)
+            {
+                isStarted = true; //To start the game
+            }
+
+            //SE must be added for villager and raft
             switch (resourceType)
             {
                 case ResourceType.Wood:
@@ -164,9 +173,13 @@ namespace HW
         }
         private void Update()
         {
+            if (!isStarted) return;
+            deltaTime = Time.deltaTime;
+
+            currTime += deltaTime;
             for (var i = 0; i < currIntervals.Length; i++)
             {
-                currIntervals[i] -= Time.deltaTime;
+                currIntervals[i] -= deltaTime;
             }
         }
     }
