@@ -12,7 +12,6 @@ namespace HW
         [SerializeField] AudioSource audioSource = default;
         [SerializeField] Sprite[] resourceIcons = new Sprite[(int)ResourceType.Max];
         private const float TickInterval = 1.0f;
-        private float interval;
         private int[] currResources = new int[(int)ResourceType.Max];
         private int[] prevResources = new int[(int)ResourceType.Max];
         private int[] currVillagers = new int[(int)ResourceType.Max];
@@ -83,8 +82,9 @@ namespace HW
                 }
             }
 
-            return (canGather) ? GetVillager(resourceType, isCurrent: true) * 1 : 0;
+            return (canGather) ? GetResourcePerSec(resourceType) : 0;
         }
+        private int GetResourcePerSec(ResourceType resourceType) => GetVillager(resourceType, isCurrent: true) * 1;
         public int GetVillager(ResourceType resourceType, bool isCurrent = true) => (isCurrent) ? currVillagers[(int)resourceType] : prevVillagers[(int)resourceType];
         public void AddVillager(ResourceType resourceType, int count)
         {
@@ -115,6 +115,18 @@ namespace HW
                 AddResource(ResourceType.Villager, count);
             }
         }
+
+        public void TryGatherResource(ResourceType resourceType)
+        {
+            if (GetInterval(resourceType) < 0f)
+            {
+                var count = GetResourcePerSec(resourceType);
+                AddResource(resourceType, count);
+                SetInterval(resourceType);
+            }
+        }
+        private float GetInterval(ResourceType resourceType) => currIntervals[(int)resourceType];
+        private void SetInterval(ResourceType resourceType) => currIntervals[(int)resourceType] = TickInterval;
 
         private void OnAdd(ResourceType resourceType)
         {

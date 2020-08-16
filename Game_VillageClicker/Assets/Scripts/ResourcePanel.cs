@@ -51,6 +51,8 @@ namespace HW
                 perSecCountText.text = $"per second: {currPerSecCount}";
                 prevPerSecCount = currPerSecCount;
             }
+
+            GameManager.Inst.TryGatherResource(resourceType);
         }
     }
 }
