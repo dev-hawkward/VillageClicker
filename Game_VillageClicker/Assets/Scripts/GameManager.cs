@@ -17,6 +17,7 @@ namespace HW
         private int[] prevResources = new int[(int)ResourceType.Max];
         private int[] currVillagers = new int[(int)ResourceType.Max];
         private int[] prevVillagers = new int[(int)ResourceType.Max];
+        private float[] currIntervals = new float[(int)ResourceType.Max];
         public Sprite GetResourceIcon(ResourceType resourceType) => resourceIcons[(int)resourceType];
         public int GetResource(ResourceType resourceType, bool isCurrent = true) => (isCurrent) ? currResources[(int)resourceType] : prevResources[(int)resourceType];
         public void AddResource(ResourceType resourceType, int count)
@@ -64,9 +65,25 @@ namespace HW
             currResources[(int)resourceType] -= count;
             OnUse();
         }
-        public int GetResourcePerSec(ResourceType resourceType)
+        public int GetResourcePerSec(ResourceType resourceType, ResourceType[] reqResources, int[] reqCosts)
         {
-            return GetVillager(resourceType, isCurrent: true) * 1;
+            var canGather = true;
+            for (var i = 0; i < reqResources.Length; i++)
+            {
+                var reqResource = reqResources[i];
+                var reqCost = reqCosts[i];
+                if (reqResource == ResourceType.NA || reqResource == ResourceType.Click || reqResource == ResourceType.Max || reqCost == 0)
+                {
+                    continue;
+                }
+                else
+                {
+                    var curr = GetResource(reqResource);
+                    if (curr < reqCost) canGather = false;
+                }
+            }
+
+            return (canGather) ? GetVillager(resourceType, isCurrent: true) * 1 : 0;
         }
         public int GetVillager(ResourceType resourceType, bool isCurrent = true) => (isCurrent) ? currVillagers[(int)resourceType] : prevVillagers[(int)resourceType];
         public void AddVillager(ResourceType resourceType, int count)
@@ -122,24 +139,9 @@ namespace HW
         }
         private void Update()
         {
-            interval -= Time.deltaTime;
-            if (interval < 0f)
+            for (var i = 0; i < currIntervals.Length; i++)
             {
-                //Automatically gather resources by villager
-                GatherResourcesByVillager();
-                interval += TickInterval;
-            }
-        }
-
-        private void GatherResourcesByVillager()
-        {
-            for (var i = 1; i < (int)ResourceType.Max; i++)
-            {
-                var villagerCount = currVillagers[i];
-                if (villagerCount > 0)
-                {
-                    AddResource((ResourceType)i, villagerCount);
-                }
+                currIntervals[i] -= Time.deltaTime;
             }
         }
     }

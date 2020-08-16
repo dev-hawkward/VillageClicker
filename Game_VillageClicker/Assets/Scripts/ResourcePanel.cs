@@ -45,7 +45,7 @@ namespace HW
                 prevCount = currCount;
             }
 
-            currPerSecCount = GameManager.Inst.GetResourcePerSec(resourceType);
+            currPerSecCount = GameManager.Inst.GetResourcePerSec(resourceType, requiredType, requiredCost);
             if (currPerSecCount != prevPerSecCount)
             {
                 perSecCountText.text = $"per second: {currPerSecCount}";
